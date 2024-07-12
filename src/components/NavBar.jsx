@@ -12,7 +12,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [activeMenuItem, setActiveMenuItem] = useState(menuItems[0]?.label || "Home");
+  const [activeMenuItem, setActiveMenuItem] = useState(
+    menuItems[0]?.label || "Home"
+  );
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,11 +22,13 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    // handleDrawerToggle(); // Close drawer after clicking a menu item
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false); // Update logged-in state
     handleMenuClose();
+    // handleDrawerToggle(); // Close drawer after clicking a menu item
   };
 
   const handleDrawerToggle = () => {
@@ -33,6 +37,7 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
 
   const handleMenuItemClick = (label) => {
     setActiveMenuItem(label);
+    handleDrawerToggle(); // Close drawer after clicking a menu item
     // Implement navigation logic here if needed
   };
 
@@ -144,10 +149,22 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
             {renderMobileMenuItems}
             {isLoggedIn && (
               <>
-                <ListItem button onClick={handleMenuClose}>
+                <ListItem
+                  button
+                  onClick={() => {
+                    handleDrawerToggle();
+                    handleMenuClose();
+                  }}
+                >
                   <ListItemText primary="Profile" />
                 </ListItem>
-                <ListItem button onClick={handleLogout}>
+                <ListItem
+                  button
+                  onClick={() => {
+                    handleLogout();
+                    handleDrawerToggle();
+                  }}
+                >
                   <ListItemText primary="Log out" />
                 </ListItem>
               </>
