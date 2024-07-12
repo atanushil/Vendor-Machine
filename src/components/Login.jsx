@@ -2,8 +2,8 @@ import React from "react";
 
 export default function Login({ setIsLoggedIn }) {
   return (
-    <div className="max-w-md w-full bg-white p-8 shadow-md rounded-lg">
-      <h1 className="text-3xl font-bold text-center mb-6">
+    <div className="max-w-md w-full bg-white p-8 shadow-md rounded-lg border border-collapse border-blue-200">
+      <h1 className="text-3xl font-bold text-green-300 text-center mb-6">
         Vendor Machine Login
       </h1>
       <form
@@ -13,7 +13,7 @@ export default function Login({ setIsLoggedIn }) {
         }}
       >
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700">
+          <label htmlFor="email" className="block text-blue-700">
             User Email Id
           </label>
           <input
@@ -21,11 +21,11 @@ export default function Login({ setIsLoggedIn }) {
             type="email"
             id="email"
             name="email"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full px-4 py-2 border border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="password" className="block text-gray-700">
+          <label htmlFor="password" className="block text-blue-700">
             Password
           </label>
           <input
@@ -33,7 +33,7 @@ export default function Login({ setIsLoggedIn }) {
             type="password"
             id="password"
             name="password"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full px-4 py-2 border-blue-400 rounded-lg  border focus:ring-2 focus:ring-blue-600"
           />
         </div>
         <button

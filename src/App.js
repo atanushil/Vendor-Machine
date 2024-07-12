@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
-
+import {BrowserRouter as Router} from "react-router-dom"
 const menuItems = [
   { label: "Home", link: "/" },
   { label: "Upload Segment", link: "/upload" },
@@ -12,7 +12,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Initialize to false initially
 
   return (
-    <div>
+    <Router>
       <div className="min-h-screen flex flex-col">
         <NavBar
           isLoggedIn={isLoggedIn}
@@ -23,7 +23,7 @@ function App() {
           {!isLoggedIn && <Login setIsLoggedIn={setIsLoggedIn} />}
         </main>
       </div>
-    </div>
+    </Router>
   );
 }
 
