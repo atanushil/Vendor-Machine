@@ -22,13 +22,11 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    // handleDrawerToggle(); // Close drawer after clicking a menu item
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false); // Update logged-in state
+    setIsLoggedIn(false);
     handleMenuClose();
-    // handleDrawerToggle(); // Close drawer after clicking a menu item
   };
 
   const handleDrawerToggle = () => {
@@ -37,8 +35,6 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
 
   const handleMenuItemClick = (label) => {
     setActiveMenuItem(label);
-    handleDrawerToggle(); // Close drawer after clicking a menu item
-    // Implement navigation logic here if needed
   };
 
   const menuId = "primary-search-account-menu";
@@ -71,7 +67,7 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
     <div className="mx-2" key={item.label}>
       <Button
         color="inherit"
-        onClick={() => handleMenuItemClick(item.label)}
+        onClick={() => {handleMenuItemClick(item.label);}}
         style={{
           color: activeMenuItem === item.label ? "red" : "inherit",
           background: activeMenuItem === item.label ? "blue" : "inherit",
@@ -84,9 +80,9 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
 
   const renderMobileMenuItems = menuItems.map((item) => (
     <ListItem
-      button
+    button
       key={item.label}
-      onClick={() => handleMenuItemClick(item.label)}
+      onClick={() => { handleMenuItemClick(item.label); setDrawerOpen(!drawerOpen) }}
       sx={{
         color: activeMenuItem === item.label ? "red" : "inherit",
         background: activeMenuItem === item.label ? "blue" : "inherit",

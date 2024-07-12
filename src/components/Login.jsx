@@ -8,7 +8,7 @@ const menuItems = [
 ];
 
 export default function Login() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Initialize to false initially
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Initialize to false initially
 
   return (
     <div className="min-h-screen flex flex-col">
