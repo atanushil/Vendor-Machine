@@ -53,12 +53,12 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
       open={Boolean(anchorEl)}
       onClose={handleMenuClose}
     >
-      {isLoggedIn && (
-        <>
-          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-          <MenuItem onClick={handleLogout}>Log out</MenuItem>
-        </>
-      )}
+      {isLoggedIn ? (
+        [
+          <MenuItem key="profile" onClick={handleProfileClick}>Profile</MenuItem>,
+          <MenuItem key="logout" onClick={handleLogout}>Log out</MenuItem>
+        ]
+      ) : null}
     </Menu>
   );
 
@@ -149,7 +149,6 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
             {renderMobileMenuItems}
             {isLoggedIn && (
               <>
-                
                 <ListItem
                   button
                   onClick={() => {
