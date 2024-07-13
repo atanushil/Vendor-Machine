@@ -115,6 +115,7 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
+                {/* account icon for profile  */}
                 <AccountCircle />
               </IconButton>
               <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -148,12 +149,7 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
             {renderMobileMenuItems}
             {isLoggedIn && (
               <>
-                <ListItem
-                  button
-                  onClick={handleProfileClick}
-                >
-                  <ListItemText primary="Profile" />
-                </ListItem>
+                
                 <ListItem
                   button
                   onClick={() => {
