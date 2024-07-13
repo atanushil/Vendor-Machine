@@ -1,15 +1,21 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
-import {BrowserRouter as Router} from "react-router-dom"
+import Dashboard from "./components/Dashboard";
+import Upload from "./components/segments/Upload";
+import Download from "./components/segments/Download";
+import Profile from "./components/Profile"; // Import Profile component
+
 const menuItems = [
-  { label: "Home", link: "/" },
+  { label: "Dashboard", link: "/dashboard" },
   { label: "Upload Segment", link: "/upload" },
   { label: "Download Segment", link: "/download" },
 ];
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Initialize to false initially
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState(menuItems[0]?.label || "Dashboard");
 
   return (
     <Router>
@@ -18,9 +24,26 @@ function App() {
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
           menuItems={menuItems}
+          activeMenuItem={activeMenuItem}
+          setActiveMenuItem={setActiveMenuItem}
         />
         <main className="flex-grow flex items-center justify-center bg-gray-100 p-4">
-          {!isLoggedIn && <Login setIsLoggedIn={setIsLoggedIn} />}
+          <Routes>
+            {!isLoggedIn ? (
+              <>
+                <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setActiveMenuItem={setActiveMenuItem} />} />
+                <Route path="*" element={<Navigate to="/" />} />
+              </>
+            ) : (
+              <>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/upload" element={<Upload />} />
+                <Route path="/download" element={<Download />} />
+                <Route path="/profile" element={<Profile />} /> {/* Add Profile route */}
+                <Route path="*" element={<Navigate to="/dashboard" />} />
+              </>
+            )}
+          </Routes>
         </main>
       </div>
     </Router>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,13 +8,12 @@ import MenuItem from "@mui/material/MenuItem";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Button, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [activeMenuItem, setActiveMenuItem] = useState(
-    menuItems[0]?.label || "Home"
-  );
+export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMenuItem, setActiveMenuItem }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,9 +23,15 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
     setAnchorEl(null);
   };
 
+  const handleProfileClick = () => {
+    navigate("/profile");
+    handleMenuClose();
+  };
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     handleMenuClose();
+    setActiveMenuItem(menuItems[0]?.label || "Dashboard");
   };
 
   const handleDrawerToggle = () => {
@@ -41,22 +46,16 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
   const renderProfileMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={Boolean(anchorEl)}
       onClose={handleMenuClose}
     >
       {isLoggedIn && (
         <>
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
           <MenuItem onClick={handleLogout}>Log out</MenuItem>
         </>
       )}
@@ -67,7 +66,9 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
     <div className="mx-2" key={item.label}>
       <Button
         color="inherit"
-        onClick={() => {handleMenuItemClick(item.label);}}
+        component={Link}
+        to={item.link}
+        onClick={() => handleMenuItemClick(item.label)}
         style={{
           color: activeMenuItem === item.label ? "red" : "inherit",
           background: activeMenuItem === item.label ? "blue" : "inherit",
@@ -80,8 +81,10 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
 
   const renderMobileMenuItems = menuItems.map((item) => (
     <ListItem
-    button
+      button
       key={item.label}
+      component={Link}
+      to={item.link}
       onClick={() => { handleMenuItemClick(item.label); setDrawerOpen(!drawerOpen) }}
       sx={{
         color: activeMenuItem === item.label ? "red" : "inherit",
@@ -147,10 +150,7 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems }) {
               <>
                 <ListItem
                   button
-                  onClick={() => {
-                    handleDrawerToggle();
-                    handleMenuClose();
-                  }}
+                  onClick={handleProfileClick}
                 >
                   <ListItemText primary="Profile" />
                 </ListItem>
