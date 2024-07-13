@@ -14,7 +14,7 @@ const menuItems = [
 ];
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [activeMenuItem, setActiveMenuItem] = useState(menuItems[0]?.label || "Dashboard");
 
   return (
