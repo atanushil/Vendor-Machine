@@ -55,7 +55,7 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
     >
       {isLoggedIn ? (
         [
-          <MenuItem key="profile" onClick={handleProfileClick}>Profile</MenuItem>,
+          <MenuItem key="profile" onClick={()=>{handleProfileClick();setActiveMenuItem(null)}}>Profile</MenuItem>,
           <MenuItem key="logout" onClick={handleLogout}>Log out</MenuItem>
         ]
       ) : null}
