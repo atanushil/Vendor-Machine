@@ -16,7 +16,7 @@ const CategoriesNavbar = ({ setCategory,categories }) => {
           <li
             key={category.label}
             className={`w-full flex py-2 items-center hover:bg-blue-300  justify-center border-2  ${
-              selectedCategory === category.label ? 'bg-blue-500 border-blue-900' : 'bg-white'
+              selectedCategory === category.label ? 'bg-blue-500 border-blue-900 text-white' : 'bg-white'
             }`}
           >
             <button

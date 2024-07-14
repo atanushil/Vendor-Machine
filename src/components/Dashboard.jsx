@@ -710,7 +710,7 @@ const Dashboard = () => {
   const [category, setCategory] = useState(categories[0].label); // Set initial category
   return (
     <>
-      <div className=" shadow-md rounded-lg w-[95vw] h-[85vh]">
+      <div className=" shadow-md rounded-lg w-[95vw] lg:h-[85vh] h-full">
         <ul className="flex sm:justify-end justify-center px-4 w-full gap-4">
           <li className="">
             <button
@@ -736,7 +736,7 @@ const Dashboard = () => {
         <div className="pt-1">
           <CategoriesNavbar setCategory={setCategory} categories={categories} />
         </div>
-        <div className="sm:h-[73vh] h-[90vh] ">
+        <div className="sm:h-[73vh] h-full ">
           <DataTable rows={rows} checkbox={false} />
         </div>
 
