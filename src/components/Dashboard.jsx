@@ -697,19 +697,30 @@ const rows = [
     pendingOutstandingAmount: 30,
   },
 ];
-
-export default function Dashboard() {
-  const [category, setCategory] = useState(null);
+const Dashboard = () => {
+  
+  const categories = [
+    { label: 'Category 1' },
+    { label: 'Category 2' },
+    { label: 'Category 3' },
+    { label: 'Category 4' },
+    { label: 'Category 5' },
+    { label: 'Category 6' },
+  ];
+  
+  const [category, setCategory] = useState(categories[0].label); // Set initial category
   return (
     <div className="bg-white shadow-md rounded-lg lg:w-[95vw] h-[85vh]">
       <div className="pt-2">
-        <CategoriesNavbar setCategory={setCategory} />
+        <CategoriesNavbar setCategory={setCategory} categories={categories} />
       </div>
-      <div className="h-[73vh] ">
-        <DataTable rows={rows} checkbox={false}  />
+      <div className="h-[73vh]">
+        <DataTable rows={rows} checkbox={false} />
       </div>
       {/* Optional: Display selected category */}
-      {category && <div className="text-center mt-4">Selected Category: {category}</div>}
+      <div className="text-center mt-4">Selected Category: {category}</div>
     </div>
   );
 };
+
+export default Dashboard;

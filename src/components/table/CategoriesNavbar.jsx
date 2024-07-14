@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const categories = [
-  { label: 'Category 1' },
-  { label: 'Category 2' },
-  { label: 'Category 3' },
-  { label: 'Category 4' },
-  { label: 'Category 5' },
-  { label: 'Category 6' },
-];
-
-const CategoriesNavbar = ({setCategory}) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+const CategoriesNavbar = ({ setCategory,categories }) => {
+  // Initialize selectedCategory to the label of the first category
+  const [selectedCategory, setSelectedCategory] = useState(categories[0].label);
 
   const handleCategoryClick = (label) => {
     setSelectedCategory(label);
     console.log(`${label} got clicked`);
     setCategory(label);
   };
-
   return (
     <nav className="bg-gray-800 p-4">
       <ul className="flex justify-evenly">
