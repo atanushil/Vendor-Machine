@@ -698,28 +698,54 @@ const rows = [
   },
 ];
 const Dashboard = () => {
-  
   const categories = [
-    { label: 'Category 1' },
-    { label: 'Category 2' },
-    { label: 'Category 3' },
-    { label: 'Category 4' },
-    { label: 'Category 5' },
-    { label: 'Category 6' },
+    { label: "Category 1" },
+    { label: "Category 2" },
+    { label: "Category 3" },
+    { label: "Category 4" },
+    { label: "Category 5" },
+    // { label: "Category 6" },
   ];
-  
+
   const [category, setCategory] = useState(categories[0].label); // Set initial category
   return (
-    <div className="bg-white shadow-md rounded-lg lg:w-[95vw] h-[85vh]">
-      <div className="pt-2">
-        <CategoriesNavbar setCategory={setCategory} categories={categories} />
+    <>
+      <div className=" shadow-md rounded-lg w-[95vw] h-[85vh]">
+        <ul className="flex sm:justify-end justify-center px-4 w-full gap-4">
+          <li className="">
+            <button
+              className="p-1  border-2  px-4 rounded-md bg-blue-200 hover:bg-orange-300 active:bg-orange-600 active:text-gray-300 active:font-medium"
+              onClick={() => {
+                alert("automated");
+              }}
+            >
+              Automated
+            </button>
+          </li>
+          <li className="">
+            <button
+              className="p-1  border-2  px-4 rounded-md bg-green-200 hover:bg-green-300 active:bg-green-600 active:text-gray-300 active:font-medium"
+              onClick={() => {
+                alert("send msg");
+              }}
+            >
+              Send mail
+            </button>
+          </li>
+        </ul>
+        <div className="pt-1">
+          <CategoriesNavbar setCategory={setCategory} categories={categories} />
+        </div>
+        <div className="sm:h-[73vh] h-[90vh] ">
+          <DataTable rows={rows} checkbox={false} />
+        </div>
+
+
+
+        {/* Optional: Display selected category */}
+        <div className="text-center mt-4">Selected Category: {category}</div>
       </div>
-      <div className="h-[73vh]">
-        <DataTable rows={rows} checkbox={false} />
-      </div>
-      {/* Optional: Display selected category */}
-      <div className="text-center mt-4">Selected Category: {category}</div>
-    </div>
+    </>
   );
 };
 

@@ -6,7 +6,7 @@ const columns = [
     field: "sl",
     headerName: "SL",
     width: 50,
-    sortable: true,
+    sortable: false,
     resizable: false,
   },
   {
@@ -136,13 +136,9 @@ export default function DataTable({ rows, checkbox }) {
           disableColumnSelector
           columns={columns}
           columnHeaderHeight={30}
+          showCellVerticalBorder
+          autoPageSize
           rowHeight={34}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 12 },
-            },
-          }}
-          pageSizeOptions={[6, 8, 10, 12, 14, 16, 18, 20]}
           checkboxSelection={checkbox}
         />
       </div>

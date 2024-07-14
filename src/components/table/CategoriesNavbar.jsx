@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const CategoriesNavbar = ({ setCategory,categories }) => {
   // Initialize selectedCategory to the label of the first category
@@ -10,18 +10,18 @@ const CategoriesNavbar = ({ setCategory,categories }) => {
     setCategory(label);
   };
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="p-1">
       <ul className="flex justify-evenly">
         {categories.map((category) => (
           <li
             key={category.label}
-            className={`w-full flex py-2 items-center justify-center border-2 border-black ${
-              selectedCategory === category.label ? 'bg-blue-500' : 'bg-white'
+            className={`w-full flex py-2 items-center hover:bg-blue-300  justify-center border-2  ${
+              selectedCategory === category.label ? 'bg-blue-500 border-blue-900' : 'bg-white'
             }`}
           >
             <button
               onClick={() => handleCategoryClick(category.label)}
-              className="text-gray-300 hover:text-white w-full"
+              className="text-blue-800 hover:text-blue-400  w-full"
             >
               {category.label}
             </button>
