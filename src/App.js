@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
@@ -12,6 +12,40 @@ const menuItems = [
   { label: "Upload Segment", link: "/upload" },
   { label: "Download Segment", link: "/download" },
 ];
+
+function AppRoutes({ isLoggedIn, setIsLoggedIn, activeMenuItem, setActiveMenuItem }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const currentItem = menuItems.find(item => item.link === currentPath);
+    if (currentItem) {
+      setActiveMenuItem(currentItem.label);
+    } else if (currentPath === '/') {
+      setActiveMenuItem('Dashboard'); // Or any default you prefer
+    }
+  }, [location, setActiveMenuItem]);
+
+  return (
+    <Routes>
+      {!isLoggedIn ? (
+        <>
+          <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setActiveMenuItem={setActiveMenuItem} />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </>
+      ) : (
+        <>
+          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/download" element={<Download />} />
+          <Route path="/profile" element={<Profile />} /> {/* Add Profile route */}
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </>
+      )}
+    </Routes>
+  );
+}
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -28,22 +62,12 @@ function App() {
           setActiveMenuItem={setActiveMenuItem}
         />
         <main className="flex-grow flex items-center justify-center bg-gray-100 p-4">
-          <Routes>
-            {!isLoggedIn ? (
-              <>
-                <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setActiveMenuItem={setActiveMenuItem} />} />
-                <Route path="*" element={<Navigate to="/" />} />
-              </>
-            ) : (
-              <>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/upload" element={<Upload />} />
-                <Route path="/download" element={<Download />} />
-                <Route path="/profile" element={<Profile />} /> {/* Add Profile route */}
-                <Route path="*" element={<Navigate to="/dashboard" />} />
-              </>
-            )}
-          </Routes>
+          <AppRoutes
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            activeMenuItem={activeMenuItem}
+            setActiveMenuItem={setActiveMenuItem}
+          />
         </main>
       </div>
     </Router>
