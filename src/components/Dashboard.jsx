@@ -710,7 +710,7 @@ const Dashboard = () => {
   const [category, setCategory] = useState(categories[0].label); // Set initial category
   return (
     <>
-      <div className=" shadow-md rounded-lg w-[95vw] lg:h-[85vh] h-full">
+      <div className=" shadow-md rounded-lg w-[95vw] lg:h-[85vh] h-[66vh] lg:mt-0 -mt-20">
         <ul className="flex sm:justify-end justify-center px-4 w-full gap-4">
           <li className="">
             <button

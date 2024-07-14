@@ -9,8 +9,8 @@ import Profile from "./components/Profile"; // Import Profile component
 
 const menuItems = [
   { label: "Dashboard", link: "/dashboard" },
-  { label: "Upload Segment", link: "/upload" },
-  { label: "Download Segment", link: "/download" },
+  // { label: "Upload Segment", link: "/upload" },
+  // { label: "Download Segment", link: "/download" },
 ];
 
 function AppRoutes({ isLoggedIn, setIsLoggedIn, activeMenuItem, setActiveMenuItem }) {

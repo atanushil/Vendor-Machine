@@ -1,5 +1,5 @@
 import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid,  GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
 
 const columns = [
   {
@@ -124,6 +124,14 @@ const columns = [
     sortable: false,
   },
 ];
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarFilterButton />
+      <GridToolbarExport/>
+    </GridToolbarContainer>
+  );
+}
 
 export default function DataTable({ rows, checkbox }) {
   return (
@@ -131,8 +139,9 @@ export default function DataTable({ rows, checkbox }) {
       <div style={{ height: "100%", width: "100%" }}>
         <DataGrid
           rows={rows}
-          disableColumnFilter
           disableColumnMenu
+          GridToolbarExport
+          slots={{toolbar:CustomToolbar}}
           disableColumnSelector
           columns={columns}
           columnHeaderHeight={30}
