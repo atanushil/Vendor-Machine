@@ -67,10 +67,10 @@ export default function DataTable({ rows, checkbox, category }) {
 
   return (
     <>
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex lg:flex flex-wrap items-center gap-4 mb-4">
         {/* Year Selector */}
         {noDataAvailable ? (
-          <span>Don't have any data</span>
+          <span className="px-4 text-2xl font-medium uppercase text-red-500">Don't have any data</span>
         ) : (
           <>
             <SelectSmall
@@ -127,7 +127,7 @@ export default function DataTable({ rows, checkbox, category }) {
           </>
         )}
       </div>
-      <div style={{ height: "100%", width: "100%" }}>
+      <div style={{ height: "100%", width: "100%"  }}>
         <DataGrid
           rows={filteredRows}
           disableColumnMenu
@@ -136,6 +136,8 @@ export default function DataTable({ rows, checkbox, category }) {
           columnHeaderHeight={30}
           showCellVerticalBorder
           autoPageSize
+          // hideFooter
+          hideFooterSelectedRowCount
           rowHeight={34}
           checkboxSelection={checkbox}
         />
