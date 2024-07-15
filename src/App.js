@@ -3,14 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "r
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
-// import Upload from "./components/segments/Upload";
-// import Download from "./components/segments/Download";
 import Profile from "./components/Profile"; // Import Profile component
 
 const menuItems = [
   { label: "Dashboard", link: "/dashboard" },
-  // { label: "Upload Segment", link: "/upload" },
-  // { label: "Download Segment", link: "/download" },
 ];
 
 function AppRoutes({ isLoggedIn, setIsLoggedIn, activeMenuItem, setActiveMenuItem }) {
@@ -22,7 +18,7 @@ function AppRoutes({ isLoggedIn, setIsLoggedIn, activeMenuItem, setActiveMenuIte
     if (currentItem) {
       setActiveMenuItem(currentItem.label);
     } else if (currentPath === '/') {
-      setActiveMenuItem('Dashboard'); // Or any default you prefer
+      setActiveMenuItem('Dashboard'); // Default item
     }
   }, [location, setActiveMenuItem]);
 
@@ -37,9 +33,7 @@ function AppRoutes({ isLoggedIn, setIsLoggedIn, activeMenuItem, setActiveMenuIte
         <>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/upload" element={<Upload />} /> */}
-          {/* <Route path="/download" element={<Download />} /> */}
-          <Route path="/profile" element={<Profile />} /> 
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </>
       )}

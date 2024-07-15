@@ -14,15 +14,15 @@ const Dashboard = () => {
         <li>
           <button
             className="p-1 border-2 px-4 rounded-md bg-blue-200 hover:bg-orange-300 active:bg-orange-600 active:text-gray-300 active:font-medium"
-            onClick={() => alert("Automated")}
+            onClick={() => alert("upload file")}
           >
-            Automated
+            Upload file
           </button>
         </li>
         <li>
           <button
             className="p-1 border-2 px-4 rounded-md bg-green-200 hover:bg-green-300 active:bg-green-600 active:text-gray-300 active:font-medium"
-            onClick={() => alert("Send Message")}
+            onClick={() => alert("Send all message.")}
           >
             Send Mail
           </button>

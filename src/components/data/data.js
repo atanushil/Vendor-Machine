@@ -6,6 +6,7 @@ const DataCategory = {
           id: 1,
           sl: 1,
           consumerId: "ABC-D-001",
+          consumerName:"Atanu Shil",
           consumerAddress: "321 Oak St",
           consumerEmail: "user1@mail.com",
           contractualVolume: 120,
@@ -29,6 +30,7 @@ const DataCategory = {
           id: 2,
           sl: 2,
           consumerId: "ABC-D-002",
+          consumerName:"Ajay kumar",
           consumerAddress: "456 Maple Ave",
           consumerEmail: "user2@mail.com",
           contractualVolume: 130,
@@ -94,6 +96,14 @@ export const columns = [
       sortable: false,
       resizable: false,
       filterable: true,
+    },
+    {
+        field : "consumerName",
+        headerName:"CONSUMER NAME",
+        width:130,
+        sortable:false,
+        resizable:true,
+        filterable:false
     },
     {
       field: "consumerAddress",
