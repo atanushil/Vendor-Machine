@@ -4,9 +4,9 @@ import SelectSmall from "./SelectSmall";
 import { columns } from "../data/data";
 
 export default function DataTable({ rows, checkbox, category }) {
-  const currentYear = new Date().getFullYear(); // Get the current year
-  const [selectedYear, setSelectedYear] = useState(currentYear.toString()); // Default to current year
+  const [selectedYear, setSelectedYear] = useState(""); // Default to no year selected
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedDay, setSelectedDay] = useState(""); // State for the day selector
   const [selectedConsumerId, setSelectedConsumerId] = useState("");
 
   const dates = rows.map((row) => row.date);
@@ -15,8 +15,9 @@ export default function DataTable({ rows, checkbox, category }) {
 
   // Reset selections when category changes
   useEffect(() => {
-    setSelectedYear(currentYear.toString());
+    setSelectedYear("");
     setSelectedMonth("");
+    setSelectedDay("");
     setSelectedConsumerId("");
   }, [category]);
 
@@ -26,6 +27,7 @@ export default function DataTable({ rows, checkbox, category }) {
     return (
       (selectedYear ? year === selectedYear : true) &&
       (selectedMonth ? month === selectedMonth : true) &&
+      (selectedDay ? day === selectedDay : true) && // Filter by day
       (selectedConsumerId ? row.consumerId === selectedConsumerId : true)
     );
   });
@@ -39,7 +41,7 @@ export default function DataTable({ rows, checkbox, category }) {
       + filteredRows.map(row => Object.values(row).join(",")).join("\n");
 
     // Create the filename
-    const fileName = `${category}_${selectedYear}_${selectedMonth}${selectedConsumerId ? `_${selectedConsumerId}` : ''}.csv`;
+    const fileName = `${category}_${selectedYear}_${selectedMonth}${selectedDay ? `_${selectedDay}` : ''}${selectedConsumerId ? `_${selectedConsumerId}` : ''}.csv`;
     
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -53,6 +55,16 @@ export default function DataTable({ rows, checkbox, category }) {
   // Check if there are any data
   const noDataAvailable = uniqueYears.length === 0 && uniqueMonths.length === 0 && consumerIds.length === 0;
 
+  // Generate unique days for the selected month and year
+  const uniqueDays = selectedYear && selectedMonth
+    ? [...new Set(rows
+        .filter(row => {
+          const [day, month, year] = row.date.split("/");
+          return year === selectedYear && month === selectedMonth;
+        })
+        .map(row => row.date.split("/")[0]))]
+    : [];
+
   return (
     <>
       <div className="flex items-center gap-4 mb-4">
@@ -64,31 +76,43 @@ export default function DataTable({ rows, checkbox, category }) {
             <SelectSmall
               values={uniqueYears}
               item={"Year"}
-              onValueChange={setSelectedYear}
+              onValueChange={(year) => {
+                setSelectedYear(year);
+                setSelectedMonth(""); // Reset month when year changes
+                setSelectedDay(""); // Reset day when year changes
+                setSelectedConsumerId(""); // Reset consumer ID when year changes
+              }}
             />
-            
+
             {/* Month Selector */}
-            {selectedYear && uniqueMonths.length > 0 ? (
+            {selectedYear && uniqueMonths.length > 0 && (
               <SelectSmall
-              none={"None"}
                 values={uniqueMonths}
                 item={"Month"}
-                onValueChange={setSelectedMonth}
+                onValueChange={(month) => {
+                  setSelectedMonth(month);
+                  setSelectedDay(""); // Reset day when month changes
+                  setSelectedConsumerId(""); // Reset consumer ID when month changes
+                }}
               />
-            ) : (
-              selectedYear && <span>Don't have any data</span>
+            )}
+
+            {/* Day Selector */}
+            {selectedMonth && uniqueDays.length > 0 && (
+              <SelectSmall
+                values={uniqueDays}
+                item={"Day (Optional)"}
+                onValueChange={setSelectedDay}
+              />
             )}
 
             {/* Consumer ID Selector */}
-            {selectedMonth && consumerIds.length > 0 ? (
+            {selectedMonth && consumerIds.length > 0 && (
               <SelectSmall
-                none={"None"}
                 values={consumerIds}
                 item={"Consumer ID (Optional)"}
                 onValueChange={setSelectedConsumerId}
               />
-            ) : (
-              selectedMonth && <span>Don't have any data</span>
             )}
 
             {/* Export Button */}

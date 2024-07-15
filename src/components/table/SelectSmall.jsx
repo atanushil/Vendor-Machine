@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function SelectSmall({ none, item, values, onValueChange }) {
+export default function SelectSmall({ disabled,item, values, onValueChange }) {
   const [selectedValue, setSelectedValue] = React.useState("None");
 
   const handleChange = (event) => {
@@ -19,14 +19,9 @@ export default function SelectSmall({ none, item, values, onValueChange }) {
         onChange={handleChange}
         className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        <option value="None" disabled>
+        <option value="None" disabled={disabled}>
           {item}
         </option>
-        {
-        none==="None" && (
-          <option value="">{none}</option>
-        )
-      }
         {values.map((value) => (
           <option key={value} value={value}>
             {value}
