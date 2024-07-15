@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,14 +6,34 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { Button, Drawer, List, ListItem, ListItemText } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 
-export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMenuItem, setActiveMenuItem }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+export default function NavBar({
+  isLoggedIn,
+  setIsLoggedIn,
+  menuItems,
+  activeMenuItem,
+  setActiveMenuItem,
+}) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isHomeActive, setIsHomeActive] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/profile") {
+      setIsHomeActive(false);
+      setActiveMenuItem("Profile");
+    } else if (location.pathname === "/dashboard") {
+      setIsHomeActive(true);
+      setActiveMenuItem("Dashboard");
+    } else {
+      setIsHomeActive(false);
+      setActiveMenuItem("");
+    }
+  }, [location, setActiveMenuItem]);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,12 +54,14 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
     setActiveMenuItem(menuItems[0]?.label || "Dashboard");
   };
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
-
   const handleMenuItemClick = (label) => {
     setActiveMenuItem(label);
+  };
+
+  const handleHomeClick = () => {
+    navigate("/dashboard");
+    setActiveMenuItem("Dashboard");
+    setIsHomeActive(true);
   };
 
   const menuId = "primary-search-account-menu";
@@ -54,10 +76,14 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
       onClose={handleMenuClose}
     >
       {isLoggedIn ? (
-        [
-          <MenuItem key="profile" onClick={()=>{handleProfileClick();setActiveMenuItem(null)}}>Profile</MenuItem>,
-          <MenuItem key="logout" onClick={handleLogout}>Log out</MenuItem>
-        ]
+        <>
+          <MenuItem key="profile" onClick={handleProfileClick}>
+            Profile
+          </MenuItem>
+          <MenuItem key="logout" onClick={handleLogout}>
+            Log out
+          </MenuItem>
+        </>
       ) : null}
     </Menu>
   );
@@ -79,22 +105,6 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
     </div>
   ));
 
-  const renderMobileMenuItems = menuItems.map((item) => (
-    <ListItem
-      button
-      key={item.label}
-      component={Link}
-      to={item.link}
-      onClick={() => { handleMenuItemClick(item.label); setDrawerOpen(!drawerOpen) }}
-      sx={{
-        color: activeMenuItem === item.label ? "red" : "inherit",
-        background: activeMenuItem === item.label ? "blue" : "inherit",
-      }}
-    >
-      <ListItemText primary={item.label} />
-    </ListItem>
-  ));
-
   return (
     <>
       <AppBar position="static">
@@ -103,6 +113,18 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
           <Box sx={{ flexGrow: 1 }} />
           {isLoggedIn ? (
             <>
+              <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show more"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleHomeClick}
+                  color={isHomeActive ? "black" : "inherit"} // Change color based on state
+                >
+                  <HomeIcon />
+                </IconButton>
+              </Box>
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 {renderMenuItems}
               </Box>
@@ -115,21 +137,8 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                {/* account icon for profile  */}
                 <AccountCircle />
               </IconButton>
-              <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-label="show more"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleDrawerToggle}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
-              </Box>
             </>
           ) : (
             <Button
@@ -143,26 +152,6 @@ export default function NavBar({ isLoggedIn, setIsLoggedIn, menuItems, activeMen
         </Toolbar>
       </AppBar>
       {renderProfileMenu}
-      <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerToggle}>
-        <Box sx={{ width: 250 }} role="presentation">
-          <List>
-            {renderMobileMenuItems}
-            {isLoggedIn && (
-              <>
-                <ListItem
-                  button
-                  onClick={() => {
-                    handleLogout();
-                    handleDrawerToggle();
-                  }}
-                >
-                  <ListItemText primary="Log out" />
-                </ListItem>
-              </>
-            )}
-          </List>
-        </Box>
-      </Drawer>
     </>
   );
 }

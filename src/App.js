@@ -7,6 +7,7 @@ import Profile from "./components/Profile"; // Import Profile component
 
 const menuItems = [
   { label: "Dashboard", link: "/dashboard" },
+  { label: "Profile", link: "/profile" }, // Add Profile to menu items
 ];
 
 function AppRoutes({ isLoggedIn, setIsLoggedIn, activeMenuItem, setActiveMenuItem }) {
