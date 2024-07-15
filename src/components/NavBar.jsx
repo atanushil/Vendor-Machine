@@ -96,8 +96,8 @@ export default function NavBar({
         to={item.link}
         onClick={() => handleMenuItemClick(item.label)}
         style={{
-          color: activeMenuItem === item.label ? "red" : "inherit",
-          background: activeMenuItem === item.label ? "blue" : "inherit",
+          color: activeMenuItem === item.label ? "#A3FFD6" : "inherit",
+          background: activeMenuItem === item.label ? "#1679AB" : "inherit",
         }}
       >
         {item.label}
@@ -108,8 +108,8 @@ export default function NavBar({
   return (
     <>
       <AppBar position="static">
-        <Toolbar>
-          <p className="sm:text-4xl text-2xl">Vendor Machine</p>
+        <Toolbar sx={{background:"#5B84B1FF"}}>
+          <p className="sm:text-4xl text-2xl text-[#3DC2EC] ">Due Invoice Manager </p>
           <Box sx={{ flexGrow: 1 }} />
           {isLoggedIn ? (
             <>

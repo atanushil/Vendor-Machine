@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import SelectSmall from "./SelectSmall";
 import { columns } from "../data/data";
+import { colors } from "@mui/material";
 
 export default function DataTable({ rows, checkbox, category }) {
   const [selectedYear, setSelectedYear] = useState("");
@@ -66,9 +67,9 @@ export default function DataTable({ rows, checkbox, category }) {
 
   return (
     <>
-      <div className="flex lg:flex flex-wrap items-center gap-4 mb-4">
+      <div className="flex lg:flex flex-wrap items-center gap-4 mb-2">
         {noDataAvailable ? (
-          <span className="px-4 text-2xl font-medium uppercase text-red-500">Don't have any data</span>
+          <span className="px-4 text-2xl py-4 font-medium uppercase bg-[#D23030] w-full text-slate-100 flex items-center justify-center">Don't have any data</span>
         ) : (
           <>
             <SelectSmall
@@ -121,7 +122,7 @@ export default function DataTable({ rows, checkbox, category }) {
           </>
         )}
       </div>
-      <div style={{ height: "100%", width: "100%" }}>
+      <div style={{ height: "100%", width: "100%"}}>
         <DataGrid
           rows={filteredRows}
           disableColumnMenu
@@ -130,6 +131,8 @@ export default function DataTable({ rows, checkbox, category }) {
           columnHeaderHeight={30}
           showCellVerticalBorder
           autoPageSize
+          sx={{background:"#b0bec5"}}
+          colors={"#478CCF"}
           hideFooterSelectedRowCount
           rowHeight={34}
           checkboxSelection={checkbox}

@@ -23,18 +23,18 @@ function AppRoutes({ isLoggedIn, setIsLoggedIn, activeMenuItem, setActiveMenuIte
     }
   }, [location, setActiveMenuItem]);
 
-  document.addEventListener('contextmenu', function(event) {
-    event.preventDefault();
-  });
+  // document.addEventListener('contextmenu', function(event) {
+  //   event.preventDefault();
+  // });
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'F12' || 
-        (event.ctrlKey && event.shiftKey && event.key === 'I') || 
-        (event.ctrlKey && event.shiftKey && event.key === 'J') || 
-        (event.ctrlKey && event.key === 'U')) {
-      event.preventDefault();
-    }
-  });
+  // document.addEventListener('keydown', function(event) {
+  //   if (event.key === 'F12' || 
+  //       (event.ctrlKey && event.shiftKey && event.key === 'I') || 
+  //       (event.ctrlKey && event.shiftKey && event.key === 'J') || 
+  //       (event.ctrlKey && event.key === 'U')) {
+  //     event.preventDefault();
+  //   }
+  // });
 
   return (
     <Routes>
@@ -69,7 +69,7 @@ function App() {
           activeMenuItem={activeMenuItem}
           setActiveMenuItem={setActiveMenuItem}
         />
-        <main className="flex-grow flex items-center justify-center bg-gray-100 p-4">
+        <main className="flex-grow flex items-center justify-center bg-gray-600 p-4">
           <AppRoutes
             isLoggedIn={isLoggedIn}
             setIsLoggedIn={setIsLoggedIn}

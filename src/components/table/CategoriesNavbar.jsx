@@ -11,17 +11,17 @@ const CategoriesNavbar = ({ setCategory,categories }) => {
   };
   return (
     <nav className="p-1">
-      <ul className="flex justify-evenly">
+      <ul className="flex justify-evenly gap-1">
         {categories.map((category) => (
           <li
             key={category.label}
-            className={`w-full flex py-2 items-center hover:bg-blue-300  justify-center border-2  ${
-              selectedCategory === category.label ? 'bg-blue-500 border-blue-900 text-white' : 'bg-white'
+            className={`w-full flex py-2 items-center hover:bg-blue-300 active:font-medium hover:text-slate-100 justify-center  lg:text-xl text-[12px] ${
+              selectedCategory === category.label ? 'bg-blue-500 border-blue-900 font-medium text-white' : 'bg-white'
             }`}
           >
             <button
               onClick={() => handleCategoryClick(category.label)}
-              className="text-blue-800 hover:text-blue-400  w-full"
+              className=" w-full"
             >
               {category.label}
             </button>
