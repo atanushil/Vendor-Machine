@@ -1,147 +1,112 @@
-import React from "react";
-import { DataGrid,  GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
+import React, { useState, useEffect } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import SelectSmall from "./SelectSmall";
+import { columns } from "../data/data";
 
-const columns = [
-  {
-    field: "sl",
-    headerName: "SL",
-    width: 50,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "consumerId",
-    headerName: "CONSUMER ID",
-    width: 130,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "consumerAddress",
-    headerName: "CONSUMER ADDRESS",
-    width: 180,
-    sortable: false,
-  },
-  {
-    field: "consumerEmail",
-    headerName: "CONSUMER EMAIL",
-    width: 200,
-    sortable: false,
-  },
-  {
-    field: "contractualVolume",
-    headerName: "CONTRACTUAL VOLUME",
-    width: 180,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "billNo",
-    headerName: "BILL NO",
-    width: 100,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "meterReadingFrom",
-    headerName: "METER READING FROM",
-    width: 200,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "meterReadingTo",
-    headerName: "METER READING TO",
-    width: 170,
-    resizable: false,
-    sortable: false,
-  },
-  {
-    field: "unitConsume",
-    headerName: "UNIT CONSUME",
-    width: 140,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "dutiableUnit",
-    headerName: "DUTIABLE UNIT",
-    width: 140,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "charges",
-    headerName: "CHARGES (RS.)",
-    width: 130,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "rent",
-    headerName: "RENT",
-    width: 100,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "totalBillAmount",
-    headerName: "TOTAL BILL AMOUNT",
-    width: 180,
-    sortable: false,
-  },
-  {
-    field: "totalPenaltyAmountFrom",
-    headerName: "TOTAL PENALTY AMOUNT FROM",
-    width: 210,
-    sortable: false,
-  },
-  {
-    field: "billAmountRent",
-    headerName: "BILL AMOUNT + M RENT (RS)",
-    width: 220,
-    sortable: false,
-  },
-  {
-    field: "revenue",
-    headerName: "REVENUE",
-    width: 130,
-    sortable: false,
-    resizable: false,
-  },
-  {
-    field: "collection",
-    headerName: "COLLECTION",
-    width: 130,
-    sortable: false,
-  },
-  { field: "date", headerName: "DATE", width: 120, sortable: false },
-  { field: "txnNo", headerName: "TXN NO", width: 150, sortable: false },
-  {
-    field: "pendingOutstandingAmount",
-    headerName: "PENDING OUTSTANDING AMOUNT",
-    width: 250,
-    sortable: false,
-  },
-];
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarFilterButton />
-      <GridToolbarExport/>
-    </GridToolbarContainer>
-  );
-}
+export default function DataTable({ rows, checkbox, category }) {
+  const currentYear = new Date().getFullYear(); // Get the current year
+  const [selectedYear, setSelectedYear] = useState(currentYear.toString()); // Default to current year
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedConsumerId, setSelectedConsumerId] = useState("");
 
-export default function DataTable({ rows, checkbox }) {
+  const dates = rows.map((row) => row.date);
+  const uniqueYears = [...new Set(dates.map((date) => date.split("/")[2]))];
+  const uniqueMonths = [...new Set(dates.map((date) => date.split("/")[1]))];
+
+  // Reset selections when category changes
+  useEffect(() => {
+    setSelectedYear(currentYear.toString());
+    setSelectedMonth("");
+    setSelectedConsumerId("");
+  }, [category]);
+
+  // Handle filtering logic
+  const filteredRows = rows.filter(row => {
+    const [day, month, year] = row.date.split("/");
+    return (
+      (selectedYear ? year === selectedYear : true) &&
+      (selectedMonth ? month === selectedMonth : true) &&
+      (selectedConsumerId ? row.consumerId === selectedConsumerId : true)
+    );
+  });
+
+  // Get consumer IDs filtered by selected year and month
+  const consumerIds = [...new Set(filteredRows.map(row => row.consumerId))];
+
+  // Export function
+  const handleExport = () => {
+    const csvContent = "data:text/csv;charset=utf-8,"
+      + filteredRows.map(row => Object.values(row).join(",")).join("\n");
+
+    // Create the filename
+    const fileName = `${category}_${selectedYear}_${selectedMonth}${selectedConsumerId ? `_${selectedConsumerId}` : ''}.csv`;
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Check if there are any data
+  const noDataAvailable = uniqueYears.length === 0 && uniqueMonths.length === 0 && consumerIds.length === 0;
+
   return (
     <>
+      <div className="flex items-center gap-4 mb-4">
+        {/* Year Selector */}
+        {noDataAvailable ? (
+          <span>Don't have any data</span>
+        ) : (
+          <>
+            <SelectSmall
+              values={uniqueYears}
+              item={"Year"}
+              onValueChange={setSelectedYear}
+            />
+            
+            {/* Month Selector */}
+            {selectedYear && uniqueMonths.length > 0 ? (
+              <SelectSmall
+              none={"None"}
+                values={uniqueMonths}
+                item={"Month"}
+                onValueChange={setSelectedMonth}
+              />
+            ) : (
+              selectedYear && <span>Don't have any data</span>
+            )}
+
+            {/* Consumer ID Selector */}
+            {selectedMonth && consumerIds.length > 0 ? (
+              <SelectSmall
+                none={"None"}
+                values={consumerIds}
+                item={"Consumer ID (Optional)"}
+                onValueChange={setSelectedConsumerId}
+              />
+            ) : (
+              selectedMonth && <span>Don't have any data</span>
+            )}
+
+            {/* Export Button */}
+            {selectedYear && selectedMonth && (
+              <button 
+                className="px-4 py-2 rounded bg-green-200 hover:bg-green-300 active:bg-green-500 active:text-white font-medium uppercase"
+                onClick={handleExport}
+              >
+                Export
+              </button>
+            )}
+          </>
+        )}
+      </div>
       <div style={{ height: "100%", width: "100%" }}>
         <DataGrid
-          rows={rows}
+          rows={filteredRows}
           disableColumnMenu
-          GridToolbarExport
-          slots={{toolbar:CustomToolbar}}
           disableColumnSelector
           columns={columns}
           columnHeaderHeight={30}
