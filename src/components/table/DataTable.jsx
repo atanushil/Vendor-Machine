@@ -39,8 +39,10 @@ export default function DataTable({ rows, checkbox, category }) {
     );
 
     if (confirmation) {
+      const headers = columns.map(col => col.headerName).join(",");
       const csvContent = "data:text/csv;charset=utf-8,"
-        + filteredRows.map(row => Object.values(row).join(",")).join("\n");
+        + headers + "\n"
+        + filteredRows.map(row => columns.map(col => row[col.field]).join(",")).join("\n");
 
       const fileName = `${category}_${selectedYear}_${selectedMonth}${selectedDay ? `_${selectedDay}` : ''}${selectedConsumerId ? `_${selectedConsumerId}` : ''}.csv`;
 
