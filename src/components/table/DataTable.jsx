@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import SelectSmall from "./SelectSmall";
 import { columns } from "../data/data";
-import { colors } from "@mui/material";
 
 export default function DataTable({ rows, checkbox, category }) {
   const [selectedYear, setSelectedYear] = useState("");
